@@ -108,3 +108,4 @@ var parcels;
  + https://gis.stackexchange.com/questions/190390/loading-vector-tile-layer-in-leaflet-map
  + https://github.com/Leaflet/Leaflet.VectorGrid
  + https://leaflet.github.io/Leaflet.VectorGrid/demo-vectortiles.html
+ + http://bl.ocks.org/reyemtm/c93cdc699b06b0b5305a9312efa2282d
