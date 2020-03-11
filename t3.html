@@ -4,9 +4,14 @@
     <link href="css/leaflet.css" rel="stylesheet" type="text/css"/>
     <script src="js/leaflet.js"></script>
     <script src="js/leaflet-providers.js"></script>
-    <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0" type="text/javascript"></script>
+    <!-- <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0" type="text/javascript"></script> -->
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha256-k1l+ouvMXT+0iRA8pc8e0dge4ZeGjXG6imrvWboFTRE="
+            src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <meta charset="utf-8">
-    <title>MBTiles Vector leaflet demo PBF</title>
+    <title>MBTiles Vector leaflet demo Tile JSON</title>
     <style>
         #mymap {
             position: absolute;
@@ -27,13 +32,21 @@
     var map = L.map('mymap', {
             center: [16.10, 108.20],
             zoom: 6,
+            minZoom: 0,
+            maxZoom: 19,
             zoomControl: true
         }
     );
     op_street.addTo(map);
-    url_thamthucvat = "http://dev.dothanhlong.org/atlas_vietnam_tiles/t_thamthucvat/{z}/{x}/{y}.pbf";
 
-    /*** Style Mbtiles ***/
+    var parcels;
+    var data = omnivore.topojson("thamthucvat.json");
+    data.on('ready', function () {
+        parcels = data.toGeoJSON();
+        //console.log(parcels);
+        buildMap();
+    });
+
     function getColor_thamthucvat(d) {
         return d == "Rừng tự nhiên" ? "#00b81c" :
             d == "Rừng thưa" ? "#8aff78" :
@@ -47,24 +60,28 @@
                                             "#0000ff";
     }
 
-    var style_thamthucvat = {
-        thamthucvat: function (feat) {
-            return {
-                /* Thêm thuộc tính fill: true để thêm màu */
-                fill: true,
-                fillColor: getColor_thamthucvat(feat.type_ttv),
-                weight: 0,
-                color: "transparent",
-                fillOpacity: 1
+    function buildMap() {
+        var view_thamthucvat = L.vectorGrid.slicer(parcels, {
+            rendererFactory: L.canvas.tile,
+            vectorTileLayerStyles: {
+                sliced: function (feat) {
+                    return {
+                        fill: true,
+                        fillColor: getColor_thamthucvat(feat.type_ttv),
+                        weight: 0,
+                        color: "transparent",
+                        fillOpacity: 1
+                    }
+                }
+            },
+            maxZoom: 22,
+            indexMaxZoom: 5,
+            interactive: true,
+            getFeatureId: function (feat) {
+                return feat.properties["type_ttv"]
             }
-        }
+        }).addTo(map);
     }
-
-    var view_thamthucvat = L.vectorGrid.protobuf(url_thamthucvat, {
-        vectorTileLayerStyles: style_thamthucvat,
-        maxZoom: 19,
-        maxNativeZoom: 14
-    }).addTo(map);
 </script>
 </body>
 </html>
