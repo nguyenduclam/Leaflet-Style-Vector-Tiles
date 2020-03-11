@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="css/leaflet.css" rel="stylesheet" type="text/css"/>
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet-providers.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Demo GeoJSON leaflet demo</title>
+    <style>
+        #mymap {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id='mymap'></div>
+<script>
+    var op_street = L.tileLayer.provider("OpenStreetMap"),
+        esri = L.tileLayer.provider("Esri.WorldImagery"),
+        CartoDB = L.tileLayer.provider("CartoDB.Voyager"),
+        Hydda_base = L.tileLayer.provider("Hydda.Base");
+
+    var map = L.map('mymap', {
+            center: [16.10, 108.20],
+            zoom: 6,
+            zoomControl: true
+        }
+    );
+    op_street.addTo(map);
+
+    $.getJSON("../../../WebAtlas_VietNam_data/sinhvat/spatial_data/thamthucvat.geojson", function (thucvat) {
+        function getColor_thamthucvat(d) {
+            return d == "Rừng tự nhiên" ? "#00b81c" :
+                d == "Rừng thưa" ? "#8aff78" :
+                    d == "Rừng tre nứa" ? "#e0ff22" :
+                        d == "Rừng ngập mặn" ? "#989FC6" :
+                            d == "Rừng ôn đới núi cao" ? "#6574AA" :
+                                d == "Rừng trồng" ? "#c275ac" :
+                                    d == "Trảng cỏ, cây bụi" ? "#acffee" :
+                                        d == "Thảm thực vật nông nghiệp" ? "#ffba7d" :
+                                            d == "Loại khác" ? "#bf6737" :
+                                                "#0000ff";
+        }
+
+        function style_thamthucvat(feat) {
+            return {
+                fillColor: getColor_thamthucvat(feat.properties.type_ttv),
+                weight: 0,
+                color: "transparent",
+                fillOpacity: 1
+            }
+        }
+
+        var view_thamthucvat = L.geoJSON(thucvat, {
+            style: style_thamthucvat,
+            onEachFeature: function (feat, layer) {
+                if (feat.properties && feat.properties.type_ttv) {
+                    layer.bindPopup("<span style='color: #000000; " +
+                        "font-weight: bolder;'>Loại thảm thực vật: " + feat.properties.type_ttv + "</span>");
+                }
+            }
+        }).addTo(map);
+    })
+</script>
+</body>
+</html>

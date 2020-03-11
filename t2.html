@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="css/leaflet.css" rel="stylesheet" type="text/css"/>
+    <script src="js/leaflet.js"></script>
+    <script src="js/leaflet-providers.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0" type="text/javascript"></script>
+    <meta charset="utf-8">
+    <title>MBTiles Vector leaflet demo</title>
+    <style>
+        #mymap {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id='mymap'></div>
+<script>
+    var op_street = L.tileLayer.provider("OpenStreetMap"),
+        esri = L.tileLayer.provider("Esri.WorldImagery"),
+        CartoDB = L.tileLayer.provider("CartoDB.Voyager"),
+        Hydda_base = L.tileLayer.provider("Hydda.Base");
+
+    var map = L.map('mymap', {
+            center: [16.10, 108.20],
+            zoom: 6,
+            zoomControl: true
+        }
+    );
+    op_street.addTo(map);
+    url_thamthucvat = "http://dev.dothanhlong.org/atlas_vietnam_tiles/t_thamthucvat/{z}/{x}/{y}.pbf";
+
+    /*** Style Mbtiles ***/
+    function getColor_thamthucvat(d) {
+        return d == "Rừng tự nhiên" ? "#00b81c" :
+            d == "Rừng thưa" ? "#8aff78" :
+                d == "Rừng tre nứa" ? "#e0ff22" :
+                    d == "Rừng ngập mặn" ? "#989FC6" :
+                        d == "Rừng ôn đới núi cao" ? "#6574AA" :
+                            d == "Rừng trồng" ? "#c275ac" :
+                                d == "Trảng cỏ, cây bụi" ? "#acffee" :
+                                    d == "Thảm thực vật nông nghiệp" ? "#ffba7d" :
+                                        d == "Loại khác" ? "#bf6737" :
+                                            "#0000ff";
+    }
+
+    var style_thamthucvat = {
+        thamthucvat: function (feat) {
+            return {
+                /* Thêm thuộc tính fill: true để thêm màu */
+                fill: true,
+                fillColor: getColor_thamthucvat(feat.type_ttv),
+                weight: 0,
+                color: "transparent",
+                fillOpacity: 1
+            }
+        }
+    }
+
+    var view_thamthucvat = L.vectorGrid.protobuf(url_thamthucvat, {
+        vectorTileLayerStyles: style_thamthucvat,
+        maxNativeZoom: 14
+    }).addTo(map);
+</script>
+</body>
+</html>
