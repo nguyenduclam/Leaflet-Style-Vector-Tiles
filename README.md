@@ -96,13 +96,13 @@ var parcels;
 
 ##### Nhận xét
  + Ưu điểm
-  + Dùng Mbtiles từ tile server cho tốc độ load rất nhanh (3mb, thời gian là dưới 1s - cụ thể là 780ms)
-  + Dùng TopoJSON cho phép set mức zoom
+   + Dùng Mbtiles từ tile server cho tốc độ load rất nhanh (3mb, thời gian là dưới 1s - cụ thể là 780ms)
+   + Dùng TopoJSON cho phép set mức zoom
  + Nhược điểm
-  + Dùng Mbtiles từ tile server không thể set up zoom (muốn set up zoom phải làm từ bước chuyển đổi 
+   + Dùng Mbtiles từ tile server không thể set up zoom (muốn set up zoom phải làm từ bước chuyển đổi 
   từ Geojson sang Mbtiles rồi Config mức zoom, tuy nhiên dữ liệu khi set zoom sẽ lên rất lớn ~2Gb)
-  + Dùng TopoJSON dung lượng tải tương đối cao, nhưng chậm hơn so với Geojson (32mb, thời gian là khoảng 5s)
-  + Dùng GeoJSON dung lượng tải lớn (115mb, thời gian là khoảng 3s)
+   + Dùng TopoJSON dung lượng tải tương đối cao, nhưng chậm hơn so với Geojson (32mb, thời gian là khoảng 5s)
+   + Dùng GeoJSON dung lượng tải lớn (115mb, thời gian là khoảng 3s)
   
 ##### References
  + https://gis.stackexchange.com/questions/190390/loading-vector-tile-layer-in-leaflet-map
