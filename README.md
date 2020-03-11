@@ -1,6 +1,6 @@
 # Leaflet Vector Tiles - tối ưu hóa load Vector Tiles và Style Vector Tiles
 
-So sánh trên cùng 1 bộ dữ liệu thảm thực vật, tổ chức thành 2 loại khác nhau:
+So sánh trên cùng 1 bộ dữ liệu thảm thực vật, tổ chức thành 3 loại khác nhau:
  + Geojson thuần bình thường (nặng 115mb)
  + Topojson được convert từ Geojson (nặng 32mb, chuyển bằng Mapshaper: https://mapshaper.org/)
  + Mbtiles từ tile server (cảm ơn Soiqualang đã làm tool chuyển đổi từ Geojson sang Mbtiles) (nặng 9Mb)
