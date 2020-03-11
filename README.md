@@ -41,9 +41,9 @@ function getColor_thamthucvat(d) {
 
 Kết quả:
  + Geojson thuần:
-   + <img src = "imgs/t1.jpg" width = "30%"/>
+   + <img src = "imgs/t1.jpg" width = "100%"/>
  + Mbtiles từ tile server:
-   + <img src = "imgs/t2.jpg" width = "30%"/>
+   + <img src = "imgs/t2.jpg" width = "100%"/>
 
 References: 
  + https://gis.stackexchange.com/questions/190390/loading-vector-tile-layer-in-leaflet-map
