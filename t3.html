@@ -27,6 +27,8 @@
     var map = L.map('mymap', {
             center: [16.10, 108.20],
             zoom: 6,
+            /* Do pbf set mức zoom là 8 nên để tránh trường hợp zoom lớn hơn không có, ta chặn maxZoom tại đây*/
+            maxZoom: 8,
             zoomControl: true
         }
     );
