@@ -32,7 +32,7 @@
     );
     op_street.addTo(map);
 
-    $.getJSON("../../../WebAtlas_VietNam_data/sinhvat/spatial_data/thamthucvat.geojson", function (thucvat) {
+    $.getJSON("thamthucvat.geojson", function (thucvat) {
         function getColor_thamthucvat(d) {
             return d == "Rừng tự nhiên" ? "#00b81c" :
                 d == "Rừng thưa" ? "#8aff78" :
