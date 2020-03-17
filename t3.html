@@ -4,6 +4,7 @@
     <link href="css/leaflet.css" rel="stylesheet" type="text/css"/>
     <script src="js/leaflet.js"></script>
     <script src="js/leaflet-providers.js"></script>
+    <script src="js/leaflet.textpath.js"></script>
     <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0" type="text/javascript"></script>
     <meta charset="utf-8">
     <title>MBTiles Vector leaflet demo PBF</title>
@@ -33,7 +34,12 @@
         }
     );
     op_street.addTo(map);
-    url_thamthucvat = "http://dev.dothanhlong.org/atlas_vietnam_tiles/t_thamthucvat/{z}/{x}/{y}.pbf";
+
+    /*** Service Name Data ***/
+    var service_name = "http://dev.dothanhlong.org/";
+
+    /*** Dạng vùng ***/
+    var url_thamthucvat = service_name + "atlas_vietnam_tiles_v2/t_thamthucvat/{z}/{x}/{y}.pbf";
 
     /*** Style Mbtiles ***/
     function getColor_thamthucvat(d) {
@@ -64,9 +70,45 @@
 
     var view_thamthucvat = L.vectorGrid.protobuf(url_thamthucvat, {
         vectorTileLayerStyles: style_thamthucvat,
+        interactive: true,
         maxZoom: 19,
-        maxNativeZoom: 14
+        maxNativeZoom: 14,
+        getFeatureId: function (feat) {
+            return feat.properties.type_ttv;
+        }
+    })//.addTo(map);
+
+    /*** Hiện Popup khi click ***/
+    view_thamthucvat.on('click', function (e) {
+        view_thamthucvat.bindPopup("<span style='color: #000000; " +
+            "font-weight: bolder;'>Loại thảm thực vật: " + e.layer.properties['type_ttv'] + "</span>")
+    })
+
+    /*** Dạng đường ***/
+    var url_songngoi = service_name + "atlas_vietnam_tiles_v2/t_songngoi/{z}/{x}/{y}.pbf";
+
+    var style_songngoi = {
+        songngoi: function (feat) {
+            return {
+                stroke: true,
+                color: "#99CDFF",
+                weight: 0.5
+            }
+        },
+    };
+
+    var view_songngoi = L.vectorGrid.protobuf(url_songngoi, {
+        /*** Load dạng đường cần canvas***/
+        rendererFactory: L.canvas.tile,
+        vectorTileLayerStyles: style_songngoi,
+        maxZoom: 19,
+        maxNativeZoom: 14,
+        getFeatureId: function (feat) {
+            //console.log(feat.properties.name);
+            return feat.properties.name;
+        }
     }).addTo(map);
+
 </script>
 </body>
 </html>

@@ -103,6 +103,15 @@ var parcels;
   từ Geojson sang Mbtiles rồi Config mức zoom, tuy nhiên dữ liệu khi set zoom sẽ lên rất lớn ~2Gb)
    + Dùng TopoJSON dung lượng tải tương đối cao, nhưng chậm hơn so với Geojson (32mb, thời gian là khoảng 5s)
    + Dùng GeoJSON dung lượng tải lớn (115mb, thời gian là khoảng 3s)
+   
+##### Hiện Bind Popup khi click dữ liệu
+ + Set up interactive của Vector Grid: `interactive: true`
+ + ```
+   view_thamthucvat.on('click', function (e) {
+           view_thamthucvat.bindPopup("<span style='color: #000000; " +
+               "font-weight: bolder;'>Loại thảm thực vật: " + e.layer.properties['type_ttv'] + "</span>")
+       })
+   ```
   
 ##### References
  + https://gis.stackexchange.com/questions/190390/loading-vector-tile-layer-in-leaflet-map
