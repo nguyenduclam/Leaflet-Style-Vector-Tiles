@@ -5,7 +5,8 @@
     <script src="js/leaflet.js"></script>
     <script src="js/leaflet-providers.js"></script>
     <script src="js/leaflet.textpath.js"></script>
-    <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0" type="text/javascript"></script>
+    <!-- <script src="https://unpkg.com/leaflet.vectorgrid@1.2.0" type="text/javascript"></script> -->
+    <script src="js/Leaflet.VectorGrid.bundled.min.js"></script>
     <meta charset="utf-8">
     <title>MBTiles Vector leaflet demo PBF</title>
     <style>
@@ -107,8 +108,50 @@
             //console.log(feat.properties.name);
             return feat.properties.name;
         }
+    })//.addTo(map);
+
+    var density_pop_09 = service_name + "atlas_vietnam_tiles_v2/t_polygon_danso_2009/{z}/{x}/{y}.pbf";
+    //console.log(density_pop_09);
+
+    function getColor_danso(d) {
+        return d > 2000 ? "#C04460" :
+            d > 1000 ? "#E29EB5" :
+                d > 500 ? "#DCB4A5" :
+                    d > 200 ? "#D2CA66" :
+                        d > 100 ? "#ECEE7A" :
+                            d > 50 ? "#F3F8A9" :
+                                "#F6F9E8";
+    }
+
+    var style_matdo_09 = {
+        polygon_danso_2009: function (feat) {
+            return {
+                fill:true,
+                fillColor: getColor_danso(feat.Density_09),
+                weight: 0,
+                color: "transparent",
+                fillOpacity: 1
+            }
+        }
+    }
+
+    var view_matdo_09 = L.vectorGrid.protobuf(density_pop_09, {
+        vectorTileLayerStyles: style_matdo_09,
+        interactive: true,
+        maxZoom: 19,
+        maxNativeZoom: 14,
+        getFeatureId: function (feat) {
+            return feat.properties.Density_09;
+        }
     }).addTo(map);
 
+    view_matdo_09.on('click', function (e) {
+        view_matdo_09.bindPopup("<span style='color: #767676; " +
+            "font-weight: bolder; font-family: Arial'>" + e.layer.properties["Quan_Huyen"] +
+            ": " + "<span style='color: red; font-family: Arial'>" +
+            e.layer.properties["Density_09"] + " người/km²" + "</span>" +
+            "</span>")
+    })
 </script>
 </body>
 </html>
